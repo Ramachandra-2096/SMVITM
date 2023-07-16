@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    tools:context=".LoginActivity"
+    android:background="#FBE7D5">
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/smvitm"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="32dp" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textColorHint="#999999"
+        android:backgroundTint="#999999"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColorHint="#999999"
+        android:backgroundTint="#999999"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_button"
+        android:padding="12dp" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30sp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:textColor="#878484"
+        android:text="Don't have an account ?"
+        />
+    <Button
+        android:id="@+id/buttonLogin2"
+        android:layout_width="match_parent"
+        android:layout_marginTop="12sp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_button"
+        android:padding="12dp"
+        android:text="SighUp"
+        android:textColor="#FFFFFF" />
+
+
+
+</LinearLayout>

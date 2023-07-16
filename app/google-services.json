@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1069139155209",
+    "project_id": "smvitm-d368f",
+    "storage_bucket": "smvitm-d368f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069139155209:android:0315bd90fd4ecb60c31bd8",
+        "android_client_info": {
+          "package_name": "com.example.smvitm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069139155209-6btv1gq0s0f4vo8geeq0fi14na0jkerm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZTy6LGVe63ewfDNwxSPJHc0OpOS89PR0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069139155209-6btv1gq0s0f4vo8geeq0fi14na0jkerm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
