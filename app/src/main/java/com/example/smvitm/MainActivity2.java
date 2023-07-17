@@ -33,7 +33,9 @@ public class MainActivity2 extends AppCompatActivity {
         messageListView = findViewById(R.id.messageListView);
 
         // Get a reference to the "messages" node in the database
-        messagesRef = FirebaseDatabase.getInstance().getReference("messages");
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        messagesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("message");
+
 
         // Attach a ValueEventListener to retrieve messages from the database
         messagesRef.addValueEventListener(new ValueEventListener() {
@@ -119,6 +121,12 @@ public class MainActivity2 extends AppCompatActivity {
     public void signOut(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity2.this, LoginActivity.class));
+        finish();
+    }
+    @Override
+    public void onBackPressed() {
+        // Start the previous activity
+        startActivity(new Intent(MainActivity2.this, Home.class));
         finish();
     }
 }

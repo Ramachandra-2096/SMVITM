@@ -77,18 +77,14 @@ public class SignupActivity extends AppCompatActivity {
 
                                     // Get the user ID of the newly created user
                                     String userId = mAuth.getCurrentUser().getUid();
-                                    DatabaseReference userRef1 = mDatabase.child("userlist_ad").child(userId);
-                                    userRef1.child("Name ").setValue(name);
-                                    userRef1.child("Email ").setValue(email);
-                                    userRef1.child("Userid ").setValue(userId);
-                                    userRef1.child("Profile_image").setValue("default");
-
                                     // Send email verification
                                     sendEmailVerification();
 
                                     if (!checkBoxAdmin.isChecked() && !checkBoxTeacher.isChecked()) {
-                                        DatabaseReference userRef = mDatabase.child("users").child("Semister" + semester).child(userId + " " + usn);
+                                        DatabaseReference userRef = mDatabase.child("users").child(userId);
                                         userRef.child("Name").setValue(name);
+                                        userRef.child("USN").setValue(usn);
+                                        userRef.child("Yesr").setValue(semester);
                                         userRef.child("Email").setValue(email);
                                         userRef.child("section").setValue(section);
                                         userRef.child("age").setValue(age);
