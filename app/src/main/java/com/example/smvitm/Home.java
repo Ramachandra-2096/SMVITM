@@ -1,5 +1,6 @@
 package com.example.smvitm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -42,9 +43,9 @@ public class Home extends AppCompatActivity {
         binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Under maintenence", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
+                Intent intent = new Intent(Home.this, MainActivity2.class);
+                startActivity(intent);
+                finish();
             }
         });
 
