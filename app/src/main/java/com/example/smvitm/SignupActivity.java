@@ -84,15 +84,17 @@ public class SignupActivity extends AppCompatActivity {
                                         DatabaseReference userRef = mDatabase.child("users").child(userId);
                                         userRef.child("Name").setValue(name);
                                         userRef.child("USN").setValue(usn);
-                                        userRef.child("Yesr").setValue(semester);
+                                        userRef.child("Year").setValue(semester);
                                         userRef.child("Email").setValue(email);
                                         userRef.child("section").setValue(section);
                                         userRef.child("age").setValue(age);
-                                    } else if (checkBoxAdmin.isChecked()) {
+                                    }
+                                    else if (checkBoxAdmin.isChecked()) {
                                         DatabaseReference userRef = mDatabase.child("Admin").child(userId);
                                         userRef.child("Name").setValue(name);
                                         userRef.child("age").setValue(age);
-                                    } else if (checkBoxTeacher.isChecked()) {
+                                    }
+                                    else if (checkBoxTeacher.isChecked()) {
                                         DatabaseReference userRef = mDatabase.child("Teacher").child(userId);
                                         userRef.child("Name").setValue(name);
                                         userRef.child("age").setValue(age);
