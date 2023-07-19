@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +35,7 @@ public class MainActivity2 extends AppCompatActivity {
 
         // Get a reference to the "messages" node in the database
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        messagesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("message");
+        messagesRef = FirebaseDatabase.getInstance().getReference("users").child(userId).child("Messages");
 
 
         // Attach a ValueEventListener to retrieve messages from the database
@@ -67,16 +68,37 @@ public class MainActivity2 extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Message selectedMessage = (Message) parent.getItemAtPosition(position);
 
-                // Mark the message as read
-                selectedMessage.setRead(true);
-                messagesRef.child(selectedMessage.getKey()).setValue(selectedMessage);
+                if (selectedMessage != null) {
+                    // Get the user ID from Firebase Authentication
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        String userId = user.getUid();
 
-                // Open a new activity to display the message content
-                Intent intent = new Intent(MainActivity2.this, MessageDetailsActivity.class);
-                intent.putExtra("messageContent", selectedMessage.getContent());
-                startActivity(intent);
+                        if (selectedMessage.getKey() != null && !selectedMessage.getKey().isEmpty()) {
+                            // Mark the message as read
+                            selectedMessage.setRead(true);
+                            DatabaseReference messageRef = FirebaseDatabase.getInstance().getReference("users")
+                                    .child(userId).child("Messages").child(selectedMessage.getKey());
+                            messageRef.child("isRead").setValue(true);
+                            messageAdapter.notifyDataSetChanged();
+                            // Open a new activity to display the message content
+                            Intent intent = new Intent(MainActivity2.this, MessageDetailsActivity.class);
+                            intent.putExtra("selectedMessage", selectedMessage);
+                            intent.putExtra("userId", userId);
+                            startActivity(intent);
+                        } else {
+                            // Handle the case when selected message doesn't have a valid key
+                            Toast.makeText(MainActivity2.this, "Selected message has no valid key.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Handle the case when user is not logged in or the authentication has an issue
+                        Toast.makeText(MainActivity2.this, "User not logged in.", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
+
+
 
         // Set item long click listener for the ListView
         messageListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

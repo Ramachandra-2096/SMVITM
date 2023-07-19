@@ -70,4 +70,8 @@ public class MessageAdapter extends BaseAdapter {
         TextView contentTextView;
         TextView unreadTextView;
     }
+    public void updateData(List<Message> messages) {
+        this.messages = messages;
+        notifyDataSetChanged();
+    }
 }
