@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.smvitm.R;
 
@@ -30,8 +32,12 @@ public class GalleryFragment extends Fragment {
         galleryViewModel = new ViewModelProvider(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
+
         webView = root.findViewById(R.id.webViewGallery);
         urlHistory = new ArrayList<>();
+        Button backButton = root.findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> onBackButtonClicked());
 
         galleryViewModel.getUrl().observe(getViewLifecycleOwner(), url -> {
             // Configure WebView settings
@@ -69,5 +75,21 @@ public class GalleryFragment extends Fragment {
         });
 
         return root;
+    }
+    private void onBackButtonClicked() {
+        if (webView.canGoBack()) {
+            // Check if the current URL is the last URL in the history
+            if (urlHistory.size() > 1 && webView.getUrl().equals(urlHistory.get(urlHistory.size() - 1))) {
+                // Remove the current URL from the history
+                urlHistory.remove(urlHistory.size() - 1);
+
+                // Load the previous URL
+                String previousUrl = urlHistory.get(urlHistory.size() - 1);
+                webView.loadUrl(previousUrl);
+            } else {
+                // Go back to the previous page
+                webView.goBack();
+            }
+        }
     }
 }
