@@ -1,4 +1,5 @@
 package com.example.smvitm;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -46,6 +48,7 @@ public class SignupActivity extends AppCompatActivity {
         checkBoxAdmin = findViewById(R.id.checkBoxAdmin);
         checkBoxTeacher = findViewById(R.id.checkBoxTeacher);
         buttonSignup = findViewById(R.id.buttonSignup);
+
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,21 +89,32 @@ public class SignupActivity extends AppCompatActivity {
                                         userRef.child("USN").setValue(usn);
                                         userRef.child("Year").setValue(semester);
                                         userRef.child("Email").setValue(email);
-                                        userRef.child("section").setValue(section);
-                                        userRef.child("age").setValue(age);
+                                        userRef.child("Section").setValue(section);
+                                        userRef.child("Age").setValue(age);
                                         userRef.child("Is").setValue(0);
-                                    }
-                                    else if (checkBoxAdmin.isChecked()) {
+
+                                        // Create a default welcome message for the user
+                                        DatabaseReference messagesRef = userRef.child("Messages");
+                                        DatabaseReference newMessageRef = messagesRef.push();
+                                        String messageId = newMessageRef.getKey();
+
+                                        String senderName = "Developer";
+                                        String messageContent = "Hello, welcome to our app";
+                                        boolean isRead = false;
+
+                                        Message message = new Message(messageContent, senderName, isRead,messageId);
+                                        newMessageRef.setValue(message);
+
+                                    } else if (checkBoxAdmin.isChecked()) {
                                         DatabaseReference userRef = mDatabase.child("Admin").child(userId);
                                         userRef.child("Name").setValue(name);
-                                        userRef.child("age").setValue(age);
+                                        userRef.child("Age").setValue(age);
                                         userRef.child("Email").setValue(email);
                                         userRef.child("Is").setValue(2);
-                                    }
-                                    else if (checkBoxTeacher.isChecked()) {
+                                    } else if (checkBoxTeacher.isChecked()) {
                                         DatabaseReference userRef = mDatabase.child("Teacher").child(userId);
                                         userRef.child("Name").setValue(name);
-                                        userRef.child("age").setValue(age);
+                                        userRef.child("Age").setValue(age);
                                         userRef.child("Email").setValue(email);
                                         userRef.child("Is").setValue(1);
                                     }
@@ -110,8 +124,22 @@ public class SignupActivity extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                    // User signup failed
                                     Toast.makeText(SignupActivity.this, "Sign up failed. Please try again.", Toast.LENGTH_SHORT).show();
+
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> deleteTask) {
+                                                if (deleteTask.isSuccessful())
+                                                {
+                                                } else {
+                                                    // Failed to remove user account
+                                                    Toast.makeText(SignupActivity.this, "Failed to remove user account.", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         });
@@ -119,6 +147,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
     }
+
     private void sendEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {

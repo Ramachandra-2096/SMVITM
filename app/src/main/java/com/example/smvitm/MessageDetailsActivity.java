@@ -1,11 +1,11 @@
 package com.example.smvitm;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,11 +22,10 @@ public class MessageDetailsActivity extends AppCompatActivity {
         senderTextView = findViewById(R.id.senderTextView);
         messageContentTextView = findViewById(R.id.messageContentTextView);
 
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("selectedMessage") && intent.hasExtra("userId")) {
-            Message selectedMessage = (Message) intent.getSerializableExtra("selectedMessage");
-            String userId = intent.getStringExtra("userId");
+        Message selectedMessage = (Message) getIntent().getSerializableExtra("selectedMessage");
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        if (selectedMessage != null && userId != null) {
             // Update the TextViews with message details
             senderTextView.setText(selectedMessage.getSender());
             messageContentTextView.setText(selectedMessage.getContent());

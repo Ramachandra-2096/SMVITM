@@ -41,6 +41,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Home extends AppCompatActivity {
 
@@ -48,7 +49,6 @@ public class Home extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final int GALLERY_REQUEST_CODE = 100;
     private ImageView profileImage;
-    private ImageViewModel imageViewModel;
     private static int a;
 
     @Override
@@ -59,16 +59,13 @@ public class Home extends AppCompatActivity {
         ActivityHomeBinding binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class); // Initialize ViewModel
+        ImageViewModel imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class); // Initialize ViewModel
 
         setSupportActionBar(binding.appBarHome.toolbar);
-        binding.appBarHome.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Home.this, MainActivity2.class);
-                startActivity(intent);
-                finish();
-            }
+        binding.appBarHome.fab.setOnClickListener(view -> {
+            Intent intent = new Intent(Home.this, MainActivity2.class);
+            startActivity(intent);
+            finish();
         });
 
         DrawerLayout drawer = binding.drawerLayout;
@@ -91,7 +88,7 @@ public class Home extends AppCompatActivity {
         TextView nam = headerView.findViewById(R.id.nametxt);
         profileImage = headerView.findViewById(R.id.imageView);
 
-        String userId = mAuth.getCurrentUser().getUid();
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -118,14 +115,11 @@ public class Home extends AppCompatActivity {
         });
 
         // Set long click listener on the profile image
-        profileImage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                // Open the gallery to select an image
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
-                return true; // Consume the long click event
-            }
+        profileImage.setOnLongClickListener(view -> {
+            // Open the gallery to select an image
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
+            return true; // Consume the long click event
         });
 
         // Reload the image from SharedPreferences when returning to the activity
@@ -231,19 +225,13 @@ public class Home extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Exit")
                 .setMessage("Are you sure you want to exit?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Exit the app
-                        finishAffinity();
-                    }
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    // Exit the app
+                    finishAffinity();
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Dismiss the dialog and continue
+                .setNegativeButton("No", (dialog,which)-> {
                         dialog.dismiss();
-                    }
+
                 })
                 .show();
     }
