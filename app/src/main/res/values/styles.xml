@@ -1,0 +1,13 @@
+<resources>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Set the primary color -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+
+        <!-- Set the darker variant of the primary color -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!-- Set the accent color -->
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+</resources>

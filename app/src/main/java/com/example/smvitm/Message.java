@@ -45,7 +45,7 @@ public class Message implements Serializable {
     }
 
     public boolean isRead() {
-        return isRead;
+        return this.isRead;
     }
 
     public void setRead(boolean read) {

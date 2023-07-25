@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <!-- Year ListView -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        >
+
+        <TextView
+            android:id="@+id/yearHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Year"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:textColor="@android:color/black"
+            android:padding="8dp"/>
+
+        <ListView
+            android:id="@+id/yearListview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:layout_weight="1"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Section ListView -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+        >
+
+        <TextView
+            android:id="@+id/sectionHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Section"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            android:textColor="@android:color/black"
+            android:padding="8dp"/>
+
+        <ListView
+            android:id="@+id/sectionListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:layout_weight="1"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Student ListView -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="8dp"
+       >
+
+        <TextView
+            android:id="@+id/studentHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Student"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:background="#FFFFFF"
+            android:padding="8dp"/>
+
+        <ListView
+            android:id="@+id/studentListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:layout_weight="1"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

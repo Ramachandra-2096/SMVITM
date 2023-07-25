@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -48,6 +49,7 @@ public class Home extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 100;
     private ImageView profileImage;
     private ImageViewModel imageViewModel;
+    private static int a;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class Home extends AppCompatActivity {
                     nam.setText(dataSnapshot.child("Name").getValue(String.class));
                     em.setText(dataSnapshot.child("Email").getValue(String.class));
 
+                    a=dataSnapshot.child("Is").getValue(Integer.class);
                     // Load profile image using Glide for smoother loading
                     String profileImageUrl = dataSnapshot.child("ProfileImage").getValue(String.class);
                     if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
@@ -195,10 +198,22 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            // Handle action_settings here
+        if (id == R.id.action_settings)
+        {
             return true;
+        }
+        if ((id==R.id.action_Send))
+        {
+            if(a==1||a==2)
+            {
+                Intent intent=new Intent(Home.this, TeacherActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+            else {
+                Toast.makeText(this, "You don't have access to enter ", Toast.LENGTH_SHORT).show();
+            }
         }
 
         return super.onOptionsItemSelected(item);

@@ -1,4 +1,5 @@
 package com.example.smvitm;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -81,10 +82,9 @@ public class MainActivity2 extends AppCompatActivity {
                                     .child(userId).child("Messages").child(selectedMessage.getKey());
                             messageRef.child("isRead").setValue(true);
                             messageAdapter.notifyDataSetChanged();
-                            // Open a new activity to display the message content
-                            Intent intent = new Intent(MainActivity2.this, MessageDetailsActivity.class);
+                            // Open a new activity to display the complete message
+                            Intent intent = new Intent(MainActivity2.this, CompleteMessageActivity.class);
                             intent.putExtra("selectedMessage", selectedMessage);
-                            intent.putExtra("userId", userId);
                             startActivity(intent);
                         } else {
                             // Handle the case when selected message doesn't have a valid key
@@ -97,8 +97,6 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
-
-
 
         // Set item long click listener for the ListView
         messageListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
