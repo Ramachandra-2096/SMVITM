@@ -1,5 +1,6 @@
 package com.example.smvitm.ui.gallery;
 
+
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.smvitm.R;
 
@@ -92,4 +92,5 @@ public class GalleryFragment extends Fragment {
             }
         }
     }
+
 }
