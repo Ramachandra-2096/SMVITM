@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
 public class SignupActivity extends AppCompatActivity {
 
     private EditText editTextName, editTextEmail, editTextPassword, editTextUSN, editTextSemester, editTextSection, editTextAge;
@@ -79,67 +78,52 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Sign up successful. Please check your email for verification.", Toast.LENGTH_SHORT).show();
 
                                     // Get the user ID of the newly created user
-                                    String userId = mAuth.getCurrentUser().getUid();
-                                    // Send email verification
-                                    sendEmailVerification();
-
-                                    if (!checkBoxAdmin.isChecked() && !checkBoxTeacher.isChecked()) {
-                                        DatabaseReference userRef = mDatabase.child("users").child(userId);
-                                        userRef.child("Name").setValue(name);
-                                        userRef.child("USN").setValue(usn);
-                                        userRef.child("Year").setValue(semester);
-                                        userRef.child("Email").setValue(email);
-                                        userRef.child("Section").setValue(section);
-                                        userRef.child("Age").setValue(age);
-                                        userRef.child("Is").setValue(0);
-
-                                        // Create a default welcome message for the user
-                                        DatabaseReference messagesRef = userRef.child("Messages");
-                                        DatabaseReference newMessageRef = messagesRef.push();
-                                        String messageId = newMessageRef.getKey();
-
-                                        String senderName = "Developer";
-                                        String messageContent = "Hello, welcome to our app";
-                                        boolean isRead = false;
-
-                                        Message message = new Message(messageContent, senderName, isRead,messageId);
-                                        newMessageRef.setValue(message);
-
-                                    } else if (checkBoxAdmin.isChecked()) {
-                                        DatabaseReference userRef = mDatabase.child("Admin").child(userId);
-                                        userRef.child("Name").setValue(name);
-                                        userRef.child("Age").setValue(age);
-                                        userRef.child("Email").setValue(email);
-                                        userRef.child("Is").setValue(2);
-                                    } else if (checkBoxTeacher.isChecked()) {
-                                        DatabaseReference userRef = mDatabase.child("Teacher").child(userId);
-                                        userRef.child("Name").setValue(name);
-                                        userRef.child("Age").setValue(age);
-                                        userRef.child("Email").setValue(email);
-                                        userRef.child("Is").setValue(1);
-                                    }
-
-                                    // Add your code to navigate to the next activity
-                                    Intent intent = new Intent(SignupActivity.this, Home.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(SignupActivity.this, "Sign up failed. Please try again.", Toast.LENGTH_SHORT).show();
-
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     if (user != null) {
-                                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> deleteTask) {
-                                                if (deleteTask.isSuccessful())
-                                                {
-                                                } else {
-                                                    // Failed to remove user account
-                                                    Toast.makeText(SignupActivity.this, "Failed to remove user account.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
+                                        String userId = user.getUid();
+                                        // Send email verification
+                                        sendEmailVerification();
+
+                                        if (!checkBoxAdmin.isChecked() && !checkBoxTeacher.isChecked()) {
+                                            DatabaseReference userRef = mDatabase.child("users").child(userId);
+                                            userRef.child("Name").setValue(name);
+                                            userRef.child("USN").setValue(usn);
+                                            userRef.child("Year").setValue(semester);
+                                            userRef.child("Email").setValue(email);
+                                            userRef.child("Section").setValue(section);
+                                            userRef.child("Age").setValue(age);
+                                            userRef.child("Is").setValue(0);
+
+                                            // Create a default welcome message for the user
+                                            DatabaseReference messagesRef = userRef.child("Messages");
+                                            DatabaseReference newMessageRef = messagesRef.push();
+                                            String messageId = newMessageRef.getKey();
+
+                                            String senderName = "Developer";
+                                            String messageContent = "Hello, welcome to our app";
+                                            boolean isRead = false;
+
+                                            Message message = new Message(messageContent, senderName, isRead, messageId);
+                                            newMessageRef.setValue(message);
+
+                                        } else if (checkBoxAdmin.isChecked()) {
+                                            DatabaseReference userRef = mDatabase.child("Admin").child(userId);
+                                            userRef.child("Name").setValue(name);
+                                            userRef.child("Age").setValue(age);
+                                            userRef.child("Email").setValue(email);
+                                            userRef.child("Is").setValue(2);
+                                        } else if (checkBoxTeacher.isChecked()) {
+                                            DatabaseReference userRef = mDatabase.child("Teacher").child(userId);
+                                            userRef.child("Name").setValue(name);
+                                            userRef.child("Age").setValue(age);
+                                            userRef.child("Email").setValue(email);
+                                            userRef.child("Is").setValue(1);
+                                        }
+                                        buttonSignup.setVisibility(View.INVISIBLE);
                                     }
+                                } else {
+                                    // User signup failed
+                                    Toast.makeText(SignupActivity.this, "Sign up failed. Please try again.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -166,8 +150,7 @@ public class SignupActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent= new Intent(SignupActivity.this,LoginActivity.class);
+        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }
-
