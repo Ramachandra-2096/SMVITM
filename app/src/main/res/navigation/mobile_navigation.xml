@@ -25,6 +25,6 @@
     <fragment
         android:id="@+id/nav_result"
         android:name="com.example.smvitm.ui.exam.Exam"
-        android:label="fragment_exam"
+        android:label="Result"
         tools:layout="@layout/fragment_exam" />
 </navigation>

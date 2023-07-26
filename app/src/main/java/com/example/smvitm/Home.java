@@ -86,7 +86,7 @@ public class Home extends AppCompatActivity {
 
         TextView em = headerView.findViewById(R.id.textView43);
         TextView nam = headerView.findViewById(R.id.nametxt);
-        profileImage = headerView.findViewById(R.id.imageView);
+        profileImage = headerView.findViewById(R.id.profile_image);
 
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);

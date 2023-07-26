@@ -67,7 +67,7 @@ public class MessageAdapter extends BaseAdapter {
 
         String content = message.getContent();
         if (content != null && content.length() > 30) {
-            // Show only the first 100 characters and add ellipsis
+            // Show only the first 30 characters and add ellipsis
             content = content.substring(0, 30) + "...";
         }
         holder.contentTextView.setText(content);

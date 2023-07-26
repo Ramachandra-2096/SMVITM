@@ -3,6 +3,7 @@ package com.example.smvitm;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,12 @@ public class MessageDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_details);
+
+        // Set the title bar with the sender's name
+        String senderName = getIntent().getStringExtra("senderName");
+        if (senderName != null && !senderName.isEmpty()) {
+            senderTextView.setText(senderName);
+        }
 
         senderTextView = findViewById(R.id.senderTextView);
         messageContentTextView = findViewById(R.id.messageContentTextView);
@@ -42,3 +49,4 @@ public class MessageDetailsActivity extends AppCompatActivity {
         }
     }
 }
+
