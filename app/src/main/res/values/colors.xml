@@ -4,6 +4,6 @@
         <color name="colorPrimary">#3F51B5</color>
         <color name="colorPrimaryDark">#303F9F</color>
         <color name="colorAccent">#FF4081</color>
-        <!-- Add other color definitions here if needed -->
-    <!-- Pink color, you can choose a color that complements your primaryColor -->
+        <color name="textPrimary">#000000</color>
+
 </resources>

@@ -33,54 +33,45 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonSighup=findViewById(R.id.buttonLogin2);
-        buttonSighup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        buttonSighup.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+            startActivity(intent);
+            finish();
         });
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = editTextEmail.getText().toString().trim();
-                String password = editTextPassword.getText().toString().trim();
+        buttonLogin.setOnClickListener(v -> {
+            String email = editTextEmail.getText().toString().trim();
+            String password = editTextPassword.getText().toString().trim();
 
-                // Validate email and password fields
-                if (email.isEmpty()) {
-                    editTextEmail.setError("Email is required");
-                    editTextEmail.requestFocus();
-                    return;
-                }
-
-                if (password.isEmpty()) {
-                    editTextPassword.setError("Password is required");
-                    editTextPassword.requestFocus();
-                    return;
-                }
-
-                // Sign in with email and password
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    if (user != null && user.isEmailVerified()) {
-                                        Intent intent = new Intent(LoginActivity.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }else {
-                                        Toast.makeText(LoginActivity.this, "Verify you Email First", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    // User login failed
-                                    Toast.makeText(LoginActivity.this, "Login failed. Please check your Email or password.", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+            // Validate email and password fields
+            if (email.isEmpty()) {
+                editTextEmail.setError("Email is required");
+                editTextEmail.requestFocus();
+                return;
             }
+
+            if (password.isEmpty()) {
+                editTextPassword.setError("Password is required");
+                editTextPassword.requestFocus();
+                return;
+            }
+
+            // Sign in with email and password
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null && user.isEmailVerified()) {
+                                Intent intent = new Intent(LoginActivity.this, Home.class);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                Toast.makeText(LoginActivity.this, "Verify you Email First", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // User login failed
+                            Toast.makeText(LoginActivity.this, "Login failed. Please check your Email or password.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 }

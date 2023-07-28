@@ -1,0 +1,124 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Enable Notifications -->
+    <CheckBox
+        android:id="@+id/enableNotificationsCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Notifications"
+        android:textColor="@color/textPrimary" />
+
+    <!-- Show Tutorial on Startup -->
+    <CheckBox
+        android:id="@+id/showTutorialCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Tutorial on Startup"
+        android:textColor="@color/textPrimary" />
+
+    <!-- Dark Mode -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dark Mode"
+            android:textSize="16sp"
+            android:textColor="@color/textPrimary" />
+
+        <Switch
+            android:id="@+id/darkModeSwitch"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/colorAccent" />
+    </LinearLayout>
+
+    <!-- Volume Control -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volume Control"
+        android:textSize="18sp"
+        android:textColor="@color/textPrimary"
+        android:layout_marginTop="16dp" />
+
+    <SeekBar
+        android:id="@+id/volumeSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="50"
+        android:thumbTint="@color/colorAccent"
+        android:layout_marginTop="8dp" />
+
+    <!-- Volume Value -->
+    <TextView
+        android:id="@+id/volumeValueTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="50"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textColor="@color/textPrimary"
+        android:layout_marginTop="8dp" />
+
+    <!-- Language Selection -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Language"
+        android:textSize="18sp"
+        android:textColor="@color/textPrimary"
+        android:layout_marginTop="16dp" />
+
+    <RadioGroup
+        android:id="@+id/languageRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/languageEnglishRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:textColor="@color/textPrimary" />
+
+        <RadioButton
+            android:id="@+id/languageSpanishRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spanish"
+            android:textColor="@color/textPrimary" />
+
+        <RadioButton
+            android:id="@+id/languageFrenchRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="French"
+            android:textColor="@color/textPrimary" />
+    </RadioGroup>
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:text="Save Settings"
+        android:textColor="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimary" />
+
+</LinearLayout>
