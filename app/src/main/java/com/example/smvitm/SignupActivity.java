@@ -3,9 +3,11 @@ package com.example.smvitm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,12 +43,32 @@ public class SignupActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextTextPassword);
         editTextUSN = findViewById(R.id.editTextUSN);
-        editTextSemester = findViewById(R.id.editTextSemester);
-        editTextSection = findViewById(R.id.editTextSection);
+
+        Spinner spinnerSemester = findViewById(R.id.spinnerSemester);
+        Spinner spinnerSection = findViewById(R.id.spinnerSection);
+        Spinner spinnerBranch = findViewById(R.id.spinnerBranch);
+
         editTextAge = findViewById(R.id.editTextAge);
-        checkBoxAdmin = findViewById(R.id.checkBoxAdmin);
-        checkBoxTeacher = findViewById(R.id.checkBoxTeacher);
+
+
         buttonSignup = findViewById(R.id.buttonSignup);
+
+        String[] semesterOptions = {"Select Current year ","1", "2", "3", "4"};
+        String[] sectionOptions = {"Select Section","A", "B", "C","NONE"};
+        String[] branchOptions = {"Select Branch","Computer Science", "Electrical Engineering", "Mechanical Engineering", "Civil Engineering","Artificial Intelligence and Datascience","Artificial Intelligence and Machine Learning "};
+
+        ArrayAdapter<String> semesterAdapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_item, semesterOptions);
+        spinnerSemester.setAdapter(semesterAdapter);
+
+        ArrayAdapter<String> sectionAdapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_item, sectionOptions);
+        spinnerSection.setAdapter(sectionAdapter);
+
+        ArrayAdapter<String> branchAdapter = new ArrayAdapter<>(this, R.layout.spinner_dropdown_item, branchOptions);
+        spinnerBranch.setAdapter(branchAdapter);
+
+        spinnerSemester.setSelection(0); // Sets the first item as the default selection
+        spinnerSection.setSelection(0);
+        spinnerBranch.setSelection(0);
 
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,16 +77,14 @@ public class SignupActivity extends AppCompatActivity {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
                 String usn = editTextUSN.getText().toString().trim();
-                String semester = editTextSemester.getText().toString().trim();
-                String section = editTextSection.getText().toString().trim();
+                String semester = spinnerSemester.getSelectedItem().toString();
+                String Branch = spinnerBranch.getSelectedItem().toString();
+                String section = spinnerSection.getSelectedItem().toString();
                 String age = editTextAge.getText().toString().trim();
 
                 // Validate fields
                 if (name.isEmpty() || email.isEmpty() || password.isEmpty() || usn.isEmpty() || semester.isEmpty() && Integer.parseInt(semester) <= 4 || section.isEmpty() || age.isEmpty()) {
                     Toast.makeText(SignupActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (checkBoxAdmin.isChecked() && checkBoxTeacher.isChecked()) {
-                    Toast.makeText(SignupActivity.this, "Sign up failed. Please try again.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -84,12 +104,12 @@ public class SignupActivity extends AppCompatActivity {
                                         // Send email verification
                                         sendEmailVerification();
 
-                                        if (!checkBoxAdmin.isChecked() && !checkBoxTeacher.isChecked()) {
                                             DatabaseReference userRef = mDatabase.child("users").child(userId);
                                             userRef.child("Name").setValue(name);
                                             userRef.child("USN").setValue(usn);
-                                            userRef.child("Year").setValue(semester);
                                             userRef.child("Email").setValue(email);
+                                            userRef.child("Year").setValue(semester);
+                                            userRef.child("Branch").setValue(Branch);
                                             userRef.child("Section").setValue(section);
                                             userRef.child("Age").setValue(age);
                                             userRef.child("Is").setValue(0);
@@ -100,25 +120,12 @@ public class SignupActivity extends AppCompatActivity {
                                             String messageId = newMessageRef.getKey();
 
                                             String senderName = "Developer";
-                                            String messageContent = "Hello, welcome to our app";
+                                            String messageContent = "Hello, "+name+" welcome to our app ";
                                             boolean isRead = false;
 
                                             Message message = new Message(messageContent, senderName, isRead, messageId);
                                             newMessageRef.setValue(message);
 
-                                        } else if (checkBoxAdmin.isChecked()) {
-                                            DatabaseReference userRef = mDatabase.child("Admin").child(userId);
-                                            userRef.child("Name").setValue(name);
-                                            userRef.child("Age").setValue(age);
-                                            userRef.child("Email").setValue(email);
-                                            userRef.child("Is").setValue(2);
-                                        } else if (checkBoxTeacher.isChecked()) {
-                                            DatabaseReference userRef = mDatabase.child("Teacher").child(userId);
-                                            userRef.child("Name").setValue(name);
-                                            userRef.child("Age").setValue(age);
-                                            userRef.child("Email").setValue(email);
-                                            userRef.child("Is").setValue(1);
-                                        }
                                         buttonSignup.setVisibility(View.INVISIBLE);
                                     }
                                 } else {
