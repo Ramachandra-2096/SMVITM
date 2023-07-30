@@ -2,6 +2,7 @@ package com.example.smvitm;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -139,9 +140,22 @@ public class MainActivity2 extends AppCompatActivity {
 
     // Handle sign out button click
     public void signOut(View view) {
+        // Clear the login status in SharedPreferences
+        updateLoginStatus(false);
+
+        // Sign out from Firebase Authentication
         FirebaseAuth.getInstance().signOut();
+
+        // Navigate to the LoginActivity
         startActivity(new Intent(MainActivity2.this, LoginActivity.class));
         finish();
+    }
+
+    private void updateLoginStatus(boolean isLoggedIn) {
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLoggedIn", isLoggedIn);
+        editor.apply();
     }
     @Override
     public void onBackPressed() {
