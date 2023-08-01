@@ -22,5 +22,6 @@
     <string name="lorem_ipsum_title">Lorem Ipsum"</string>
 
     <string name="fab_content_description">Represents a view to invoke an action</string>
+    <string name="select_year_prompt">Select a Year</string>
 
 </resources>

@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -73,14 +74,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Check if the user is already logged in
+        // Check if the user is already logged in and email is verified
         SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         boolean isLoggedIn = preferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn) {
-            // User is logged in, navigate to the next activity
-            Intent intent = new Intent(LoginActivity.this, Home.class);
-            startActivity(intent);
-            finish();
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null && user.isEmailVerified()) {
+                // User is logged in and email is verified, navigate to the next activity
+                Intent intent = new Intent(LoginActivity.this, Home.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -107,15 +111,22 @@ public class LoginActivity extends AppCompatActivity {
                         hideProgressDialog();
 
                         if (task.isSuccessful()) {
-                            // User login successful
-                            Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null && user.isEmailVerified()) {
+                                // User login successful and email is verified
+                                Toast.makeText(LoginActivity.this, "Login successful.", Toast.LENGTH_SHORT).show();
 
-                            // Update the login status to true
-                            updateLoginStatus(true);
+                                // Update the login status to true
+                                updateLoginStatus(true);
 
-                            Intent intent = new Intent(LoginActivity.this, Home.class);
-                            startActivity(intent);
-                            finish();
+                                Intent intent = new Intent(LoginActivity.this, Home.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                // Email is not verified, show a toast message and log the user out
+                                Toast.makeText(LoginActivity.this, "Please verify your email first.", Toast.LENGTH_SHORT).show();
+                                mAuth.signOut();
+                            }
                         } else {
                             // User login failed
                             Toast.makeText(LoginActivity.this, "Login failed. Please check your Email or password.", Toast.LENGTH_SHORT).show();

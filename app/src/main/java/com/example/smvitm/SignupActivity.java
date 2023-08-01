@@ -1,11 +1,11 @@
 package com.example.smvitm;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,9 +25,9 @@ public class SignupActivity extends AppCompatActivity {
 
     private EditText editTextName, editTextEmail, editTextPassword, editTextUSN, editTextSemester, editTextSection, editTextAge;
     private Button buttonSignup;
-    private CheckBox checkBoxAdmin, checkBoxTeacher;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +69,10 @@ public class SignupActivity extends AppCompatActivity {
         spinnerSemester.setSelection(0); // Sets the first item as the default selection
         spinnerSection.setSelection(0);
         spinnerBranch.setSelection(0);
-
         buttonSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showProgressDialog();
                 String name = editTextName.getText().toString().trim();
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
@@ -85,6 +85,7 @@ public class SignupActivity extends AppCompatActivity {
                 // Validate fields
                 if (name.isEmpty() || email.isEmpty() || password.isEmpty() || usn.isEmpty() || semester.isEmpty() && Integer.parseInt(semester) <= 4 || section.isEmpty() || age.isEmpty()) {
                     Toast.makeText(SignupActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    hideProgressDialog();
                     return;
                 }
 
@@ -125,10 +126,11 @@ public class SignupActivity extends AppCompatActivity {
 
                                             Message message = new Message(messageContent, senderName, isRead, messageId);
                                             newMessageRef.setValue(message);
-
+                                        hideProgressDialog();
                                         buttonSignup.setVisibility(View.INVISIBLE);
                                     }
                                 } else {
+                                    hideProgressDialog();
                                     // User signup failed
                                     Toast.makeText(SignupActivity.this, "Sign up failed. Please try again.", Toast.LENGTH_SHORT).show();
                                 }
@@ -137,6 +139,18 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Signing up...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     private void sendEmailVerification() {
