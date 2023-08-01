@@ -1,82 +1,86 @@
-<!-- activity_teacher.xml -->
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".SignupActivity"
-    android:background="#FBE7D5">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <LinearLayout
+        <!-- Add labels for the Spinners -->
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
+            android:layout_marginTop="30sp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:padding="14dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Select Year"></TextView>
+            android:gravity="clip_horizontal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#878484"
+            android:text="Select Year:"
+            android:padding="8dp" />
 
         <Spinner
-            android:id="@+id/spinnerYear12"
+            android:id="@+id/spinnerSemester123"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FF4081"
+            android:popupBackground="#FBE7D5"
+            android:padding="12dp"
+            android:prompt="@string/select_year_prompt"
+            />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_marginTop="30sp"
+            android:layout_height="wrap_content"
+            android:gravity="clip_horizontal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#878484"
+            android:text="Select Branch:"
+            android:padding="12dp"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerBranch46"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#FF4081"
+            android:popupBackground="#FBE7D5"
+            android:padding="9dp"
+            android:prompt="@string/select_branch_prompt" />
+
+        <Button
+            android:id="@+id/searchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/search_button_label"
+            android:paddingTop="12dp"/>
+
+        <!-- Add a loading indicator (ProgressBar) -->
+        <ProgressBar
+            android:id="@+id/loadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/studentListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:gravity="center"
-            android:spinnerMode="dropdown" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Select Branch"
-                    ></TextView>
+            android:visibility="gone" />
 
-                <Spinner
-                    android:id="@+id/spinnerBranch13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:spinnerMode="dropdown" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Select Section"
-                    ></TextView>
+        <!-- Add an Empty state view -->
+        <TextView
+            android:id="@+id/emptyStateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No students found matching the selected criteria"
+            android:visibility="gone" />
 
-                <Spinner
-                    android:id="@+id/spinnerSection13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:spinnerMode="dropdown" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="14dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:text="Select Student"
-                    ></TextView>
-                <Spinner
-                    android:id="@+id/spinnerStudent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:spinnerMode="dropdown" />
-
-
-        </LinearLayout>
-</ScrollView>
-
-
+</LinearLayout>

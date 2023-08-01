@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
 
+
     private String key; // Use this key to store the messageId in the database
     private String content;
     private String sender;
@@ -54,3 +55,5 @@ public class Message implements Serializable {
         isRead = read;
     }
 }
+
+
