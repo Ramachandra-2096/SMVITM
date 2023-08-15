@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".NewPostActivity">
+
+    <EditText
+        android:id="@+id/postContentEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter your post content"
+        android:padding="16dp"
+        android:background="@drawable/edittext_rounded_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+    app:layout_constraintVertical_chainStyle="packed"
+    />
+
+    <Button
+        android:id="@+id/addAttachmentButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Attachment"
+        android:background="@drawable/button_background"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/postContentEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+    />
+
+    <Button
+        android:id="@+id/submitPostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Post"
+        android:background="@drawable/button_background"
+        android:textColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/addAttachmentButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+    />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

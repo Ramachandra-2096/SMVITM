@@ -164,4 +164,11 @@ public class TeacherActivity extends AppCompatActivity {
         }
         return -1;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(TeacherActivity.this, Home.class);
+        startActivity(intent);
+    }
 }

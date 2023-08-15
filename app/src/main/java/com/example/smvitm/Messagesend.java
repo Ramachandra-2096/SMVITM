@@ -95,6 +95,8 @@ public class Messagesend extends AppCompatActivity {
         newMessageRef.setValue(message);
 
         Toast.makeText(this, "Message sent ", Toast.LENGTH_SHORT).show();
+        Intent intent=new Intent(Messagesend.this,TeacherActivity.class);
+        startActivity(intent);
     }
 
 
