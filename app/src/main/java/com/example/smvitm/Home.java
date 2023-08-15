@@ -1,12 +1,15 @@
 package com.example.smvitm;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,16 +19,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.smvitm.databinding.ActivityHomeBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -50,6 +56,8 @@ public class Home extends AppCompatActivity {
     private static final int GALLERY_REQUEST_CODE = 100;
     private ImageView profileImage;
     private static int a;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,7 @@ public class Home extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -87,7 +96,7 @@ public class Home extends AppCompatActivity {
         TextView em = headerView.findViewById(R.id.textView43);
         TextView nam = headerView.findViewById(R.id.nametxt);
         profileImage = headerView.findViewById(R.id.profile_image);
-
+        showProgressDialog();
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -97,7 +106,7 @@ public class Home extends AppCompatActivity {
                     nam.setText(dataSnapshot.child("Name").getValue(String.class));
                     em.setText(dataSnapshot.child("Email").getValue(String.class));
 
-                    a=dataSnapshot.child("Is").getValue(Integer.class);
+                    a = dataSnapshot.child("Is").getValue(Integer.class);
                     // Load profile image using Glide for smoother loading
                     String profileImageUrl = dataSnapshot.child("ProfileImage").getValue(String.class);
                     if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
@@ -105,6 +114,7 @@ public class Home extends AppCompatActivity {
                                 .load(profileImageUrl)
                                 .into(profileImage);
                     }
+                    hideProgressDialog();
                 }
             }
 
@@ -131,6 +141,58 @@ public class Home extends AppCompatActivity {
             imageViewModel.setSelectedImageUri(selectedImageUri);
         }
     }
+
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Setting up Environment...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    public void onImageViewClick(View view) {
+        // Start the new activity when the ImageView is clicked
+        Intent intent = new Intent(this, ZoomedActivity.class);
+
+        // Get the current image URI from Glide and convert it to a string
+        Glide.with(this).asBitmap().load(profileImage.getDrawable()).into(new CustomTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                // Save the image to SharedPreferences (Optional, in case you need to access it after activity restarts)
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                // Convert the Bitmap to a URI string and store it in SharedPreferences
+                String imageUriString = getImageUriStringFromBitmap(resource);
+                editor.putString("selectedImageUri", imageUriString);
+                editor.apply();
+
+                // Pass the image URI as a string extra to the next activity
+                intent.putExtra("imageUriString", imageUriString);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+                // Handle any error or placeholder if needed
+            }
+        });
+    }
+
+
+    private String getImageUriStringFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        String imageUriString = "data:image/jpeg;base64," + Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return imageUriString;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -192,22 +254,17 @@ public class Home extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
-            Intent intent=new Intent(Home.this, SettingsActivity.class);
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(Home.this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
-        if ((id==R.id.action_Send))
-        {
-            if(a==1||a==2)
-            {
-                Intent intent=new Intent(Home.this, TeacherActivity.class);
+        if ((id == R.id.action_Send)) {
+            if (a == 1 || a == 2) {
+                Intent intent = new Intent(Home.this, TeacherActivity.class);
                 startActivity(intent);
                 finish();
-
-            }
-            else {
+            } else {
                 Toast.makeText(this, "You don't have access to enter ", Toast.LENGTH_SHORT).show();
             }
         }
@@ -231,9 +288,8 @@ public class Home extends AppCompatActivity {
                     // Exit the app
                     finishAffinity();
                 })
-                .setNegativeButton("No", (dialog,which)-> {
-                        dialog.dismiss();
-
+                .setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
                 })
                 .show();
     }
