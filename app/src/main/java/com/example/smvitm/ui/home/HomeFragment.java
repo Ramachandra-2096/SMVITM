@@ -1,5 +1,7 @@
 package com.example.smvitm.ui.home;
 
+import static com.example.smvitm.Home.a;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,7 +44,9 @@ public class HomeFragment extends Fragment {
         addPostButton = rootView.findViewById(R.id.addPostButton);
         noPostsText = rootView.findViewById(R.id.noPostsText);
         postsRecyclerView = rootView.findViewById(R.id.postsRecyclerView);
-
+        if (a != 2) {
+            addPostButton.setVisibility(View.INVISIBLE);
+        }
         firestore = FirebaseFirestore.getInstance();
         postList = new ArrayList<>();
         postAdapter = new PostAdapter(postList);

@@ -55,7 +55,7 @@ public class Home extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final int GALLERY_REQUEST_CODE = 100;
     private ImageView profileImage;
-    private static int a;
+     public static int a;
     private ProgressDialog progressDialog;
 
 
