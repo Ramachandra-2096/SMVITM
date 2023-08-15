@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextEmail, editTextPassword, editTextUSN, editTextSemester, editTextSection, editTextAge;
+    private EditText editTextName, editTextEmail, editTextPassword, editTextUSN, editTextSection, editTextAge;
     private Button buttonSignup;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -49,7 +49,6 @@ public class SignupActivity extends AppCompatActivity {
         Spinner spinnerBranch = findViewById(R.id.spinnerBranch);
 
         editTextAge = findViewById(R.id.editTextAge);
-
 
         buttonSignup = findViewById(R.id.buttonSignup);
 

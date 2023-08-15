@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,8 @@ public class TeacherActivity extends AppCompatActivity {
 
     // Sample data for years and branches
     private static final String[] years = {"1", "2", "3", "4"};
+    private static final String[] sectionOptions = {"ALL","A", "B", "C","NONE"};
+
     private static final String[] branches = {"ALL","Computer Science", "Electrical Engineering", "Mechanical Engineering", "Civil Engineering","Artificial Intelligence and Datascience","Artificial Intelligence and Machine Learning "};
 
     private Spinner yearSpinner;
@@ -43,6 +44,8 @@ public class TeacherActivity extends AppCompatActivity {
 
         yearSpinner = findViewById(R.id.spinnerSemester123);
         branchSpinner = findViewById(R.id.spinnerBranch46);
+        Spinner spinnersection = findViewById(R.id.spinnerSection123);
+
         searchButton = findViewById(R.id.searchButton);
         studentListView = findViewById(R.id.studentListView);
         loadingIndicator = findViewById(R.id.loadingIndicator);
@@ -51,9 +54,13 @@ public class TeacherActivity extends AppCompatActivity {
         // Set up ArrayAdapter for the yearSpinner and branchSpinner
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, years);
         ArrayAdapter<String> branchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, branches);
+        ArrayAdapter<String> sectionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sectionOptions);
+
 
         yearSpinner.setAdapter(yearAdapter);
         branchSpinner.setAdapter(branchAdapter);
+        spinnersection.setAdapter(sectionAdapter);
+
 
         students = new ArrayList<>();
 
@@ -111,6 +118,7 @@ public class TeacherActivity extends AppCompatActivity {
                 // Get selected year and branch
                 String selectedYear = yearSpinner.getSelectedItem().toString();
                 String selectedBranch = branchSpinner.getSelectedItem().toString();
+                String selectedsection = spinnersection.getSelectedItem().toString();
 
                 // Perform the search asynchronously (using AsyncTask, ViewModel, or other methods)
 
@@ -120,41 +128,56 @@ public class TeacherActivity extends AppCompatActivity {
                     public void run() {
                         // Hide the loading indicator
                         loadingIndicator.setVisibility(View.GONE);
+                         if (selectedBranch.equals("ALL")) {
+                            sendMessageToUsersInYear(selectedYear);
+                        }
+                         else if (selectedsection.equals("ALL"))
+                         {
+                            sendMessageToUsersInYearAndBranch(selectedYear, selectedBranch);
+                        }
+                         else {
+                            List<String> matchingUSNs = new ArrayList<>();
+                            for (Map<String, String> student : students) {
+                                String studentYear = student.get("Year");
+                                String studentBranch = student.get("Branch");
+                                String studentSection = student.get("Section");
 
-                        // Search for matching students
-                        List<String> matchingUSNs = new ArrayList<>();
-                        for (Map<String, String> student : students) {
-                            String studentYear = student.get("Year");
-                            String studentBranch = student.get("Branch");
+                                if (studentYear != null && studentBranch != null && studentSection != null && studentYear.equals(selectedYear) && studentBranch.equals(selectedBranch) && studentSection.equals(selectedsection)) {
+                                    matchingUSNs.add(student.get("USN"));
+                                }
 
-                            if (studentYear != null && studentBranch != null && studentYear.equals(selectedYear) && studentBranch.equals(selectedBranch)) {
-                                matchingUSNs.add(student.get("USN"));
+                            }
+
+                            // Display the results or the empty state view
+                            if (!matchingUSNs.isEmpty()) {
+                                ArrayAdapter<String> studentAdapter = new ArrayAdapter<>(TeacherActivity.this, android.R.layout.simple_list_item_1, matchingUSNs);
+                                studentListView.setAdapter(studentAdapter);
+                                studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                        Intent intent = new Intent(TeacherActivity.this, Messagesend.class);
+                                        intent.putExtra("USN", matchingUSNs.get(i).toString());
+                                        startActivity(intent);
+                                    }
+                                });
+                                studentListView.setVisibility(View.VISIBLE);
+                                emptyStateTextView.setVisibility(View.GONE);
+                            } else {
+                                studentListView.setVisibility(View.GONE);
+                                emptyStateTextView.setVisibility(View.VISIBLE);
                             }
                         }
+                    }
 
-                        // Display the results or the empty state view
-                        if (!matchingUSNs.isEmpty()) {
-                            ArrayAdapter<String> studentAdapter = new ArrayAdapter<>(TeacherActivity.this, android.R.layout.simple_list_item_1, matchingUSNs);
-                            studentListView.setAdapter(studentAdapter);
-                            studentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    Intent intent=new Intent(TeacherActivity.this, Messagesend.class);
-                                    intent.putExtra("USN",matchingUSNs.get(i).toString());
-                                    startActivity(intent);
-                                }
-                            });
-                            studentListView.setVisibility(View.VISIBLE);
-                            emptyStateTextView.setVisibility(View.GONE);
-                        } else {
-                            studentListView.setVisibility(View.GONE);
-                            emptyStateTextView.setVisibility(View.VISIBLE);
-                        }
+                    @Override
+                    protected void finalize() throws Throwable {
+                        super.finalize();
                     }
                 }, 2000); // Simulate a 2-second search delay (remove this in the actual implementation)
             }
         });
     }
+
 
     private int findStudentIndex(String usn) {
         for (int i = 0; i < students.size(); i++) {
@@ -164,6 +187,21 @@ public class TeacherActivity extends AppCompatActivity {
         }
         return -1;
     }
+
+
+    private void sendMessageToUsersInYear(String year) {
+        Intent intent = new Intent(TeacherActivity.this, Messagesend.class);
+        intent.putExtra("ID",year);
+        startActivity(intent);
+    }
+
+    private void sendMessageToUsersInYearAndBranch(String year, String branch) {
+        Intent intent = new Intent(TeacherActivity.this, Messagesend.class);
+        intent.putExtra("ID",year);
+        intent.putExtra("Branch",branch);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onBackPressed() {

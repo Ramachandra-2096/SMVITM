@@ -23,7 +23,10 @@
 
     <string name="fab_content_description">Represents a view to invoke an action</string>
     <string name="select_year_prompt">Select a Year</string>
-    <string name="select_branch_prompt">Select Brach</string>
+    <string name="select_branch_prompt">Select Branch</string>
+    <string name="select_section_prompt">Select Section</string>
+
+
     <string name="search_button_label">Search</string>
 
 </resources>

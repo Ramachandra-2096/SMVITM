@@ -2,10 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <!-- Add labels for the Spinners -->
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
@@ -26,19 +24,20 @@
             android:popupBackground="#FBE7D5"
             android:padding="12dp"
             android:prompt="@string/select_year_prompt"
+
             />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
-            android:layout_marginTop="30sp"
+            android:layout_marginTop="16dp"
             android:layout_height="wrap_content"
             android:gravity="clip_horizontal"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#878484"
             android:text="Select Branch:"
-            android:padding="12dp"
+            android:padding="8dp"
             />
 
         <Spinner
@@ -48,7 +47,30 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="#FF4081"
             android:popupBackground="#FBE7D5"
-            android:padding="9dp"
+            android:padding="12dp"
+            android:prompt="@string/select_branch_prompt" />
+
+        <TextView
+            android:id="@+id/textView50"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:gravity="clip_horizontal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#878484"
+            android:text="Select Section:"
+            android:padding="8dp"
+            />
+
+        <Spinner
+            android:id="@+id/spinnerSection123"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/colorAccent"
+            android:popupBackground="#FBE7D5"
+            android:padding="12dp"
             android:prompt="@string/select_branch_prompt" />
 
         <Button
