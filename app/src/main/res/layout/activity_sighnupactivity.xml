@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/smvitm"
+            android:src="@drawable/smvitm1"
             android:layout_gravity="center"
             android:layout_marginBottom="32dp" />
 
