@@ -1,16 +1,19 @@
 package com.example.smvitm;
+
 public class Post {
     private String content;
     private String userId;
     private long timestamp;
+    private String fileUrl; // New field for the file URL
 
     public Post() {
     }
 
-    public Post(String content, String userId, long timestamp) {
+    public Post(String content, String userId, long timestamp, String fileUrl) {
         this.content = content;
         this.userId = userId;
         this.timestamp = timestamp;
+        this.fileUrl = fileUrl;
     }
 
     public String getContent() {
@@ -36,5 +39,12 @@ public class Post {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
-}
 
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+}

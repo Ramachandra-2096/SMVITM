@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "1069139155209",
-    "project_id": "smvitm-d368f",
-    "storage_bucket": "smvitm-d368f.appspot.com"
+    "project_number": "323050862182",
+    "firebase_url": "https://smvitm-30817-default-rtdb.firebaseio.com",
+    "project_id": "smvitm-30817",
+    "storage_bucket": "smvitm-30817.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069139155209:android:0315bd90fd4ecb60c31bd8",
+        "mobilesdk_app_id": "1:323050862182:android:42ecd521f4ba61c8fddfa7",
         "android_client_info": {
           "package_name": "com.example.smvitm"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1069139155209-6btv1gq0s0f4vo8geeq0fi14na0jkerm.apps.googleusercontent.com",
+          "client_id": "323050862182-6jfti5eceg5jf988o7ltgqaq4sevmphu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCZTy6LGVe63ewfDNwxSPJHc0OpOS89PR0"
+          "current_key": "AIzaSyA5ELoQgy1X4Y7Yw-SeraN6bxEEVGzBfBk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1069139155209-6btv1gq0s0f4vo8geeq0fi14na0jkerm.apps.googleusercontent.com",
+              "client_id": "323050862182-6jfti5eceg5jf988o7ltgqaq4sevmphu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

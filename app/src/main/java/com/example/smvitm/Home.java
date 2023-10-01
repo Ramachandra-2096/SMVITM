@@ -1,9 +1,9 @@
 package com.example.smvitm;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -11,9 +11,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,19 +22,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.smvitm.databinding.ActivityHomeBinding;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,10 +52,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity {
-
+    private static final int GALLERY_REQUEST_CODE = 100;
+    private static final int PERMISSION_REQUEST_CODE = 101;
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
-    private static final int GALLERY_REQUEST_CODE = 100;
+
     private ImageView profileImage;
      public static int a;
     private ProgressDialog progressDialog;
@@ -62,7 +65,13 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (!hasStoragePermission()) {
+            // Permission is not granted, request it
+            requestStoragePermission();
+        } else {
+            // Permission is already granted, you can proceed with your activity
+            // ...
+        }
         mAuth = FirebaseAuth.getInstance();
         ActivityHomeBinding binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -147,6 +156,18 @@ public class Home extends AppCompatActivity {
         progressDialog.setMessage("Setting up Environment...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+    }
+
+    private boolean hasStoragePermission() {
+        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this, new String[]{
+               android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        }, PERMISSION_REQUEST_CODE);
     }
 
     private void hideProgressDialog() {
@@ -271,6 +292,22 @@ public class Home extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+
+            }
+        }
+    }
+
+
+
 
     @Override
     public boolean onSupportNavigateUp() {

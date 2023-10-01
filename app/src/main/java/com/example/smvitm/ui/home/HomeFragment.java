@@ -44,6 +44,8 @@ public class HomeFragment extends Fragment {
         addPostButton = rootView.findViewById(R.id.addPostButton);
         noPostsText = rootView.findViewById(R.id.noPostsText);
         postsRecyclerView = rootView.findViewById(R.id.postsRecyclerView);
+
+        
         if (a != 2) {
             addPostButton.setVisibility(View.INVISIBLE);
         }
