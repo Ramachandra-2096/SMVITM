@@ -9,43 +9,44 @@
 
     <EditText
         android:id="@+id/postContentEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="410dp"
+        android:layout_height="340dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/edittext_rounded_background"
+        android:gravity="top"
         android:hint="Enter your post content"
         android:padding="16dp"
-        android:background="@drawable/edittext_rounded_background"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-    app:layout_constraintVertical_chainStyle="packed"
-    />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/addAttachmentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Attachment"
+        android:layout_width="172dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/button_background"
+        android:text="📎 Add Attachment"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/postContentEditText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.2"
-    />
+        app:layout_constraintHorizontal_bias="0.104"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postContentEditText" />
 
     <Button
         android:id="@+id/submitPostButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit Post"
+        android:layout_width="125dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="64dp"
         android:background="@drawable/button_background"
+        android:text="Submit Post"
         android:textColor="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@id/addAttachmentButton"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.2"
-    />
+        app:layout_constraintHorizontal_bias="0.853"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postContentEditText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

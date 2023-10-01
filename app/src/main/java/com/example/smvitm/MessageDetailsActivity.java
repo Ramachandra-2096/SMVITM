@@ -2,8 +2,6 @@ package com.example.smvitm;
 
 import android.os.Bundle;
 import android.widget.TextView;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
