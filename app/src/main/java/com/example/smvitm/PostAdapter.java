@@ -61,7 +61,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         Glide.with(holder.itemView.getContext())
                                 .load(post.getFileUrl())
                                 .placeholder(R.drawable.iii)
-                                .error(R.drawable.ii)
+                                .error(R.drawable.iii)
                                 .into(holder.fileImageView);
 
                         // Set an OnClickListener to open the image in the gallery
