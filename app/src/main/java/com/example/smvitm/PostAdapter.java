@@ -1,3 +1,4 @@
+package com.example.smvitm.ui.home;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -91,7 +92,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         holder.downloadButton.setVisibility(View.VISIBLE);
 
                         Glide.with(holder.itemView.getContext())
-                                .load(R.drawable.iii)
+                                .load(R.drawable.pdf)
                                 .into(holder.fileImageView);
 
                         // Set an OnClickListener to open the PDF using Google Drive viewer

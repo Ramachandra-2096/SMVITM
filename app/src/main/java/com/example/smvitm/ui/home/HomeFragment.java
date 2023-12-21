@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smvitm.NewPostActivity;
 import com.example.smvitm.Post;
-import com.example.smvitm.PostAdapter;
 import com.example.smvitm.R;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,7 +33,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView postsRecyclerView;
     private FirebaseFirestore firestore;
     private List<Post> postList;
-    private PostAdapter postAdapter;
+    private com.example.smvitm.ui.home.PostAdapter postAdapter;
 
     @Nullable
     @Override
@@ -51,7 +50,7 @@ public class HomeFragment extends Fragment {
         }
         firestore = FirebaseFirestore.getInstance();
         postList = new ArrayList<>();
-        postAdapter = new PostAdapter(postList);
+        postAdapter = new com.example.smvitm.ui.home.PostAdapter(postList);
 
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         postsRecyclerView.setAdapter(postAdapter);
