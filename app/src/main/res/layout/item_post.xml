@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:clickable="true"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/contentTextView"
@@ -22,22 +24,37 @@
             android:textSize="16sp"
             android:layout_marginTop="8dp"
             android:text="Your text goes here"
-        />
+            />
 
+        <!-- Preview Image for File -->
         <ImageView
             android:id="@+id/fileImageView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="8dp"
-            />
+            android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        />
 
+        <!-- PDF View -->
         <com.github.barteksc.pdfviewer.PDFView
             android:id="@+id/pdfView"
             android:layout_width="match_parent"
+            android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        />
+
+        <!-- Download Button -->
+        <Button
+            android:id="@+id/downloadButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:text="Download"
+            android:onClick="downloadFile"
             />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-
